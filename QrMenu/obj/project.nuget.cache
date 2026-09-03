@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "SRmJlX9TNs0=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\lchil\\OneDrive\\Desktop\\QrMenu\\QrMenu\\QrMenu.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\lchil\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.11\\microsoft.aspnetcore.app.internal.assets.10.0.11.nupkg.sha512"
+  ],
+  "logs": []
+}

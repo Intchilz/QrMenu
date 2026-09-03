@@ -1,0 +1,49 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+
+    <!-- Full-width top bar -->
+    <div class="top-row px-4">
+        <div class="restaurant-name">
+            <img src="images/logo.png" alt="Logo">
+            My Restaurant
+        </div>
+        <!-- Notifications -->
+         <div class="top-right">
+            <a href="/notifications"
+                class="top-icon-link"
+                aria-label="Notifications"
+                title="Notifications">
+                <span class="bi bi-bell-fill-nav-menu" aria-hidden="true"></span>
+            </a>
+            <a href="/account" class="account-link" aria-label="Account" title="Account">
+                <span class="bi bi-person-circle-nav-menu" aria-hidden="true"></span>
+            </a>
+         </div>
+    </div>
+
+    <!-- Dashboard body -->
+    <div class="dashboard-body">
+
+        <!-- Sidebar -->
+         
+        <aside class="sidebar">
+            <NavMenu />
+        </aside>
+
+        <!-- Main content -->
+        <main>
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+
+    </div>
+
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
