@@ -81,6 +81,15 @@
     text-decoration: none;
 }
 
+.Date-Display[b-50ma08ik02] {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #6c001b;
+    padding-top: 1.2rem;
+    white-space: nowrap;
+}
+
 
 /* =========================================
    ACCOUNT ICON
@@ -571,4 +580,10 @@ main[b-50ma08ik02] {
         height: 80px;
         opacity: 0;
     }
+}
+/* /Components/Pages/Home.razor.rz.scp.css */
+p[b-0xhxmy0fef] {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #FFBF00;
 }

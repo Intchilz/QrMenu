@@ -80,6 +80,15 @@
     text-decoration: none;
 }
 
+.Date-Display[b-50ma08ik02] {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #6c001b;
+    padding-top: 1.2rem;
+    white-space: nowrap;
+}
+
 
 /* =========================================
    ACCOUNT ICON

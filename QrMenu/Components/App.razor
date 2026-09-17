@@ -18,6 +18,33 @@
     <Routes />
     <ReconnectModal />
     <script src="@Assets["_framework/blazor.web.js"]"></script>
+    <!-- Load Pyodide from official CDN -->
+<script src="https://jsdelivr.net"></script>
+
+<script>
+    let pyodideInstance = null;
+
+    // Initialize the Python environment once
+    async function initPython() {
+        if (!pyodideInstance) {
+            pyodideInstance = await loadPyodide();
+        }
+    }
+
+    // Run Python code and return the result to Blazor
+    async function getPythonTime() {
+        await initPython();
+        
+        // Pure Python code to format the current date and time
+        let pythonCode = `
+import datetime
+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        `;
+        
+        return await pyodideInstance.runPythonAsync(pythonCode);
+    }
+</script>
+
 </body>
 
 </html>

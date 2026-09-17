@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QrMenu")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+94c4b0b4097fbbaec2dd7a11120d8f946aca30f5")]
 [assembly: System.Reflection.AssemblyProductAttribute("QrMenu")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QrMenu")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
