@@ -17,6 +17,10 @@ public class ApplicationDbContext
 
     public DbSet<Restaurant> Restaurants => Set<Restaurant>();
 
+    public DbSet<RestaurantTable> RestaurantTables => Set<RestaurantTable>();
+
+    public DbSet<TableSession> TableSessions => Set<TableSession>();
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -52,6 +56,67 @@ public class ApplicationDbContext
 
             entity.Property(u => u.LastName)
                 .HasMaxLength(100);
+        });
+
+        builder.Entity<RestaurantTable>(entity =>
+        {
+            entity.ToTable("tables");
+
+
+            entity.HasKey(t => t.Id);
+
+
+            entity.Property(t => t.TableName)
+                .IsRequired()
+                .HasMaxLength(100);
+
+
+            entity.Property(t => t.QrToken)
+                .IsRequired()
+                .HasMaxLength(200);
+
+
+            entity.Property(t => t.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+
+            entity.HasIndex(t => t.QrToken)
+                .IsUnique();
+
+
+            entity.HasOne(t => t.Restaurant)
+                .WithMany(r => r.Tables)
+                .HasForeignKey(t => t.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // TableSession entity configuration
+        builder.Entity<TableSession>(entity =>
+        {
+            entity.ToTable("table_sessions");
+
+
+            entity.HasKey(s => s.Id);
+
+
+            entity.Property(s => s.Status)
+                .HasConversion<string>();
+
+
+            entity.Property(s => s.SessionStart)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+
+            entity.HasOne(s => s.Table)
+                .WithMany(t => t.Sessions)
+                .HasForeignKey(s => s.TableId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            entity.HasOne(s => s.Restaurant)
+                .WithMany()
+                .HasForeignKey(s => s.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

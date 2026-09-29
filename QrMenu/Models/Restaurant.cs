@@ -19,4 +19,7 @@ public class Restaurant
 
     public ICollection<ApplicationUser> Users { get; set; }
         = new List<ApplicationUser>();
+
+    public ICollection<RestaurantTable> Tables { get; set; }
+    = new List<RestaurantTable>();    
 }
