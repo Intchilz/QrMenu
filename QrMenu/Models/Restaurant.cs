@@ -21,5 +21,12 @@ public class Restaurant
         = new List<ApplicationUser>();
 
     public ICollection<RestaurantTable> Tables { get; set; }
-    = new List<RestaurantTable>();    
+    = new List<RestaurantTable>();
+
+    public ICollection<Category> Categories { get; set; }
+    = new List<Category>();
+
+
+    public ICollection<Product> Products { get; set; }
+        = new List<Product>();    
 }

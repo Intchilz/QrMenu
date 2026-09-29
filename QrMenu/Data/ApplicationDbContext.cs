@@ -21,6 +21,10 @@ public class ApplicationDbContext
 
     public DbSet<TableSession> TableSessions => Set<TableSession>();
 
+    public DbSet<Category> Categories => Set<Category>();
+
+    public DbSet<Product> Products => Set<Product>();
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -116,6 +120,75 @@ public class ApplicationDbContext
             entity.HasOne(s => s.Restaurant)
                 .WithMany()
                 .HasForeignKey(s => s.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<Category>(entity =>
+        {
+            entity.ToTable("categories");
+
+
+            entity.HasKey(c => c.Id);
+
+
+            entity.Property(c => c.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+
+
+            entity.Property(c => c.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+
+            entity.HasIndex(c => c.RestaurantId);
+
+
+            entity.HasOne(c => c.Restaurant)
+                .WithMany(r => r.Categories)
+                .HasForeignKey(c => c.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<Product>(entity =>
+        {
+            entity.ToTable("products");
+
+
+            entity.HasKey(p => p.Id);
+
+
+            entity.Property(p => p.Name)
+                .IsRequired()
+                .HasMaxLength(200);
+
+
+            entity.Property(p => p.Price)
+                .HasPrecision(10, 2);
+
+
+            entity.Property(p => p.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+
+            entity.Property(p => p.AvailabilityStatus)
+                .HasConversion<string>();
+
+
+            entity.HasIndex(p => p.RestaurantId);
+
+
+            entity.HasIndex(p => p.CategoryId);
+
+
+            entity.HasOne(p => p.Restaurant)
+                .WithMany(r => r.Products)
+                .HasForeignKey(p => p.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            entity.HasOne(p => p.Category)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }
