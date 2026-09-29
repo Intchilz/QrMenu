@@ -261,3 +261,4 @@ C:\Users\Home\Desktop\QrMenu\qrmenu\obj\Debug\net10.0\QrMenu.csproj.AssemblyRefe
 C:\Users\Home\Desktop\QrMenu\qrmenu\obj\Debug\net10.0\compressed\wcweih5lq6-{0}-bdp83aklie-bdp83aklie.gz
 C:\Users\Home\Desktop\QrMenu\qrmenu\obj\Debug\net10.0\compressed\y3ecbd2zmk-{0}-bdp83aklie-bdp83aklie.gz
 C:\Users\Home\Desktop\QrMenu\qrmenu\obj\Debug\net10.0\QrMenu.csproj.Up2Date
+C:\Users\Home\Desktop\QrMenu\qrmenu\bin\Debug\net10.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

@@ -8,8 +8,9 @@
     ".NETCoreApp,Version=v10.0": {
       "QrMenu/1.0.0": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "10.0.10",
-          "Microsoft.EntityFrameworkCore.Design": "10.0.10",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "10.0.12",
+          "Microsoft.EntityFrameworkCore": "10.0.12",
+          "Microsoft.EntityFrameworkCore.Design": "10.0.12",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.3"
         },
         "runtime": {
@@ -21,6 +22,17 @@
           "lib/net6.0/Humanizer.dll": {
             "assemblyVersion": "2.14.0.0",
             "fileVersion": "2.14.1.48190"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Identity.EntityFrameworkCore/10.0.12": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.12"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll": {
+            "assemblyVersion": "10.0.12.0",
+            "fileVersion": "10.0.1226.42308"
           }
         }
       },
@@ -249,7 +261,7 @@
           "Microsoft.Build.Framework": "18.0.2",
           "Microsoft.CodeAnalysis.Workspaces.Common": "5.0.0",
           "Microsoft.VisualStudio.SolutionPersistence": "1.0.52",
-          "Newtonsoft.Json": "13.0.3",
+          "Newtonsoft.Json": "13.0.4",
           "System.Composition": "9.0.0"
         },
         "runtime": {
@@ -304,60 +316,60 @@
           }
         }
       },
-      "Microsoft.EntityFrameworkCore/10.0.10": {
+      "Microsoft.EntityFrameworkCore/10.0.12": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.10"
+          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.12"
         },
         "runtime": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.dll": {
-            "assemblyVersion": "10.0.10.0",
-            "fileVersion": "10.0.1026.32716"
+            "assemblyVersion": "10.0.12.0",
+            "fileVersion": "10.0.1226.42308"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Abstractions/10.0.10": {
+      "Microsoft.EntityFrameworkCore.Abstractions/10.0.12": {
         "runtime": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
-            "assemblyVersion": "10.0.10.0",
-            "fileVersion": "10.0.1026.32716"
+            "assemblyVersion": "10.0.12.0",
+            "fileVersion": "10.0.1226.42308"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Design/10.0.10": {
+      "Microsoft.EntityFrameworkCore.Design/10.0.12": {
         "dependencies": {
           "Humanizer.Core": "2.14.1",
           "Microsoft.Build.Framework": "18.0.2",
           "Microsoft.CodeAnalysis.CSharp": "5.0.0",
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "5.0.0",
           "Microsoft.CodeAnalysis.Workspaces.MSBuild": "5.0.0",
-          "Microsoft.EntityFrameworkCore.Relational": "10.0.10",
-          "Microsoft.Extensions.DependencyModel": "10.0.10",
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.12",
+          "Microsoft.Extensions.DependencyModel": "10.0.12",
           "Mono.TextTemplating": "3.0.0",
-          "Newtonsoft.Json": "13.0.3"
+          "Newtonsoft.Json": "13.0.4"
         },
         "runtime": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.Design.dll": {
-            "assemblyVersion": "10.0.10.0",
-            "fileVersion": "10.0.1026.32716"
+            "assemblyVersion": "10.0.12.0",
+            "fileVersion": "10.0.1226.42308"
           }
         }
       },
-      "Microsoft.EntityFrameworkCore.Relational/10.0.10": {
+      "Microsoft.EntityFrameworkCore.Relational/10.0.12": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "10.0.10"
+          "Microsoft.EntityFrameworkCore": "10.0.12"
         },
         "runtime": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll": {
-            "assemblyVersion": "10.0.10.0",
-            "fileVersion": "10.0.1026.32716"
+            "assemblyVersion": "10.0.12.0",
+            "fileVersion": "10.0.1226.42308"
           }
         }
       },
-      "Microsoft.Extensions.DependencyModel/10.0.10": {
+      "Microsoft.Extensions.DependencyModel/10.0.12": {
         "runtime": {
           "lib/net10.0/Microsoft.Extensions.DependencyModel.dll": {
-            "assemblyVersion": "10.0.0.10",
-            "fileVersion": "10.0.1026.32716"
+            "assemblyVersion": "10.0.0.12",
+            "fileVersion": "10.0.1226.42308"
           }
         }
       },
@@ -380,11 +392,11 @@
           }
         }
       },
-      "Newtonsoft.Json/13.0.3": {
+      "Newtonsoft.Json/13.0.4": {
         "runtime": {
           "lib/net6.0/Newtonsoft.Json.dll": {
             "assemblyVersion": "13.0.0.0",
-            "fileVersion": "13.0.3.27908"
+            "fileVersion": "13.0.4.30916"
           }
         }
       },
@@ -398,8 +410,8 @@
       },
       "Npgsql.EntityFrameworkCore.PostgreSQL/10.0.3": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "10.0.10",
-          "Microsoft.EntityFrameworkCore.Relational": "10.0.10",
+          "Microsoft.EntityFrameworkCore": "10.0.12",
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.12",
           "Npgsql": "10.0.3"
         },
         "runtime": {
@@ -492,6 +504,13 @@
       "path": "humanizer.core/2.14.1",
       "hashPath": "humanizer.core.2.14.1.nupkg.sha512"
     },
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore/10.0.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7W/9vKC65y41W6JXwC6WSU++D43wY/ANhrm7tJdbm2lrbzNkYClja6uL3Cg69y+PJ1Q4nARb3eWs9PNMWCdYxQ==",
+      "path": "microsoft.aspnetcore.identity.entityframeworkcore/10.0.12",
+      "hashPath": "microsoft.aspnetcore.identity.entityframeworkcore.10.0.12.nupkg.sha512"
+    },
     "Microsoft.Build.Framework/18.0.2": {
       "type": "package",
       "serviceable": true,
@@ -534,40 +553,40 @@
       "path": "microsoft.codeanalysis.workspaces.msbuild/5.0.0",
       "hashPath": "microsoft.codeanalysis.workspaces.msbuild.5.0.0.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore/10.0.10": {
+    "Microsoft.EntityFrameworkCore/10.0.12": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-a0V7zj/VbYP6dTdWpUgE/r2PuLKtUGe2aJ0lVKkn/wP9ZhaxUz2kQydVfvOjCv2SKxlrqdBfHhPD4Cvlf+4ffA==",
-      "path": "microsoft.entityframeworkcore/10.0.10",
-      "hashPath": "microsoft.entityframeworkcore.10.0.10.nupkg.sha512"
+      "sha512": "sha512-e7OrVN8U5yr4kuwdTHWBHGVQIVsGfMkAr0Ej1/BnrS989Q0XBVANpIzNZ2bc1GvMZ0/XwMt5InTnmKskxGy99Q==",
+      "path": "microsoft.entityframeworkcore/10.0.12",
+      "hashPath": "microsoft.entityframeworkcore.10.0.12.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Abstractions/10.0.10": {
+    "Microsoft.EntityFrameworkCore.Abstractions/10.0.12": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-bOzrFCl6uZCjaSh2bG1ToRQRdx+iXvxosCg9hFyG9OWeAzOFI4xev9OqKeWfKf/kAHyox2JnbcvLVf2ceA7sqA==",
-      "path": "microsoft.entityframeworkcore.abstractions/10.0.10",
-      "hashPath": "microsoft.entityframeworkcore.abstractions.10.0.10.nupkg.sha512"
+      "sha512": "sha512-kDrux7T6C3V/YYYe2LXr7x6AEsVyq5Y2YoTE9er1SwbDtap3z1g8RgxNh5eKQVyB4T+DKvBBJ4Ezd/VZzJQJZg==",
+      "path": "microsoft.entityframeworkcore.abstractions/10.0.12",
+      "hashPath": "microsoft.entityframeworkcore.abstractions.10.0.12.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Design/10.0.10": {
+    "Microsoft.EntityFrameworkCore.Design/10.0.12": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-BsvxiKcy8k4/ijAPitmwKG1mlVsdC2lQtFLP28K2N8PlsGYbqPFOyfJ7p2kWil3gM6xXgQGf8Hz/pJB8ej+Dug==",
-      "path": "microsoft.entityframeworkcore.design/10.0.10",
-      "hashPath": "microsoft.entityframeworkcore.design.10.0.10.nupkg.sha512"
+      "sha512": "sha512-I/IwEkUEUoa62UMJHh2+04oAs+gZz4QEunpZ3MGtAf12PZUcTduZLuGZEp3FAZ7wkmkSThZez41P8tgFj8QYKQ==",
+      "path": "microsoft.entityframeworkcore.design/10.0.12",
+      "hashPath": "microsoft.entityframeworkcore.design.10.0.12.nupkg.sha512"
     },
-    "Microsoft.EntityFrameworkCore.Relational/10.0.10": {
+    "Microsoft.EntityFrameworkCore.Relational/10.0.12": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-wNonj40aZxia+GtuBiiD6ZqVh4h6y5Nje1bGdmzZ8/ui0QRsAN+S0SIrLHFCEGbG9cDbeaE40sh+Lr7o9rRs6g==",
-      "path": "microsoft.entityframeworkcore.relational/10.0.10",
-      "hashPath": "microsoft.entityframeworkcore.relational.10.0.10.nupkg.sha512"
+      "sha512": "sha512-OiHmr8XzX96dbgMsYGe8qoqg4KxibdZG2r0QUVJBGktFInOp8IrABe8jvcbo5hrqeWfbwpK7fCEBiEPbY/ik4A==",
+      "path": "microsoft.entityframeworkcore.relational/10.0.12",
+      "hashPath": "microsoft.entityframeworkcore.relational.10.0.12.nupkg.sha512"
     },
-    "Microsoft.Extensions.DependencyModel/10.0.10": {
+    "Microsoft.Extensions.DependencyModel/10.0.12": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-rfZA1RjR021RPqSmIPovfz2aOd79TGqJ9BengbjnzIISOVwjLmuSDnhCMmiY/1c6iYvGolQ1iNGzkav0u11XEA==",
-      "path": "microsoft.extensions.dependencymodel/10.0.10",
-      "hashPath": "microsoft.extensions.dependencymodel.10.0.10.nupkg.sha512"
+      "sha512": "sha512-rDPQVTxh/zMTDF7wHlRqL/jjZbwjAP6315ydBxj51pZW7qkAwGwjoSiMutxYI91xmOE3ZXjAGHbYRqzyJV7Urw==",
+      "path": "microsoft.extensions.dependencymodel/10.0.12",
+      "hashPath": "microsoft.extensions.dependencymodel.10.0.12.nupkg.sha512"
     },
     "Microsoft.VisualStudio.SolutionPersistence/1.0.52": {
       "type": "package",
@@ -583,12 +602,12 @@
       "path": "mono.texttemplating/3.0.0",
       "hashPath": "mono.texttemplating.3.0.0.nupkg.sha512"
     },
-    "Newtonsoft.Json/13.0.3": {
+    "Newtonsoft.Json/13.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
-      "path": "newtonsoft.json/13.0.3",
-      "hashPath": "newtonsoft.json.13.0.3.nupkg.sha512"
+      "sha512": "sha512-pdgNNMai3zv51W5aq268sujXUyx7SNdE2bj1wZcWjAQrKMFZV260lbqYop1d2GM67JI1huLRwxo9ZqnfF/lC6A==",
+      "path": "newtonsoft.json/13.0.4",
+      "hashPath": "newtonsoft.json.13.0.4.nupkg.sha512"
     },
     "Npgsql/10.0.3": {
       "type": "package",
