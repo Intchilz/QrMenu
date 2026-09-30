@@ -8,20 +8,17 @@ public class TableSession
 
     public Guid TableId { get; set; }
 
+    public string SessionToken { get; set; } = string.Empty;
 
-    public SessionStatus Status { get; set; }
-        = SessionStatus.Active;
+    public SessionStatus Status { get; set; } = SessionStatus.Active;
 
+    public DateTime SessionStart { get; set; } = DateTime.UtcNow;
 
-    public DateTime SessionStart { get; set; }
-        = DateTime.UtcNow;
-
+    public DateTime? LastActivityAt { get; set; }
 
     public DateTime? SessionEnd { get; set; }
 
-
     // Relationships
-
     public Restaurant Restaurant { get; set; } = null!;
 
     public RestaurantTable Table { get; set; } = null!;

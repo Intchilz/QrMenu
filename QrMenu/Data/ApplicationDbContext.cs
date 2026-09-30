@@ -29,6 +29,43 @@ public class ApplicationDbContext
 
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
+    private static string ConvertAvailabilityStatusToString(AvailabilityStatus status) => status switch
+    {
+        AvailabilityStatus.Available => "AVAILABLE",
+        AvailabilityStatus.OutOfStock => "OUT_OF_STOCK",
+        AvailabilityStatus.Seasonal => "SEASONAL",
+        _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
+    };
+
+    private static AvailabilityStatus ConvertStringToAvailabilityStatus(string value) => value switch
+    {
+        "AVAILABLE" => AvailabilityStatus.Available,
+        "OUT_OF_STOCK" => AvailabilityStatus.OutOfStock,
+        "SEASONAL" => AvailabilityStatus.Seasonal,
+        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+    };
+
+    private static string ConvertOrderStatusToString(OrderStatus status) => status switch
+    {
+        OrderStatus.Pending => "PENDING",
+        OrderStatus.InPreparation => "IN_PREPARATION",
+        OrderStatus.Cooking => "COOKING",
+        OrderStatus.Ready => "READY",
+        OrderStatus.Served => "SERVED",
+        OrderStatus.Cancelled => "CANCELLED",
+        _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
+    };
+
+    private static OrderStatus ConvertStringToOrderStatus(string value) => value switch
+    {
+        "PENDING" => OrderStatus.Pending,
+        "IN_PREPARATION" => OrderStatus.InPreparation,
+        "COOKING" => OrderStatus.Cooking,
+        "READY" => OrderStatus.Ready,
+        "SERVED" => OrderStatus.Served,
+        "CANCELLED" => OrderStatus.Cancelled,
+        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+    };
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -107,12 +144,32 @@ public class ApplicationDbContext
             entity.HasKey(s => s.Id);
 
 
-            entity.Property(s => s.Status)
-                .HasConversion<string>();
+        entity.Property(s => s.Status)
+            .HasConversion(
+                status => status == SessionStatus.Active
+                    ? "ACTIVE"
+                    : status == SessionStatus.Closed
+                        ? "CLOSED"
+                        : "EXPIRED",
+                value => value == "ACTIVE"
+                    ? SessionStatus.Active
+                    : value == "CLOSED"
+                        ? SessionStatus.Closed
+                        : SessionStatus.Expired)
+            .HasDefaultValue(SessionStatus.Active);
 
 
             entity.Property(s => s.SessionStart)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.Property(s => s.SessionToken)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            entity.HasIndex(s => s.SessionToken)
+                .IsUnique();
+
+            entity.Property(s => s.LastActivityAt);
 
 
             entity.HasOne(s => s.Table)
@@ -157,43 +214,38 @@ public class ApplicationDbContext
         {
             entity.ToTable("products");
 
-
             entity.HasKey(p => p.Id);
-
 
             entity.Property(p => p.Name)
                 .IsRequired()
                 .HasMaxLength(200);
 
-
             entity.Property(p => p.Price)
                 .HasPrecision(10, 2);
-
 
             entity.Property(p => p.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+            entity.Property(p => p.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             entity.Property(p => p.AvailabilityStatus)
-                .HasConversion<string>();
-
+                .HasConversion(
+                    status => ConvertAvailabilityStatusToString(status),
+                    value => ConvertStringToAvailabilityStatus(value));
 
             entity.HasIndex(p => p.RestaurantId);
-
-
             entity.HasIndex(p => p.CategoryId);
-
 
             entity.HasOne(p => p.Restaurant)
                 .WithMany(r => r.Products)
                 .HasForeignKey(p => p.RestaurantId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-
             entity.HasOne(p => p.Category)
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         builder.Entity<Order>(entity =>
@@ -202,9 +254,11 @@ public class ApplicationDbContext
 
             entity.HasKey(o => o.Id);
 
-            entity.Property(o => o.Status)
-                .HasConversion<string>()
-                .HasDefaultValue(OrderStatus.Pending);
+        entity.Property(o => o.Status)
+            .HasConversion(
+                status => ConvertOrderStatusToString(status),
+                value => ConvertStringToOrderStatus(value))
+            .HasDefaultValue(OrderStatus.Pending);
 
             entity.Property(o => o.TotalAmount)
                 .HasPrecision(10, 2)
