@@ -31,5 +31,23 @@ public class Restaurant
         = new List<Product>();
 
     public ICollection<Order> Orders { get; set; }
-        = new List<Order>();        
-}
+        = new List<Order>(); 
+
+    public ICollection<Coupon> Coupons { get; set; }
+    = new List<Coupon>();
+
+    public ICollection<Promotion> Promotions { get; set; }
+        = new List<Promotion>();
+
+    public ICollection<Subscription> Subscriptions { get; set; }
+        = new List<Subscription>();
+
+    public ICollection<SubscriptionPayment> SubscriptionPayments { get; set; }
+        = new List<SubscriptionPayment>();
+
+    public ICollection<Notification> Notifications { get; set; }
+        = new List<Notification>();
+
+    public ICollection<AuditLog> AuditLogs { get; set; }
+        = new List<AuditLog>();       
+    }

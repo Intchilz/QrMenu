@@ -29,6 +29,21 @@ public class ApplicationDbContext
 
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
+    public DbSet<Coupon> Coupons => Set<Coupon>();
+
+    public DbSet<Promotion> Promotions => Set<Promotion>();
+
+    public DbSet<Subscription> Subscriptions => Set<Subscription>();
+
+    public DbSet<SubscriptionPayment> SubscriptionPayments
+        => Set<SubscriptionPayment>();
+
+    public DbSet<Notification> Notifications
+        => Set<Notification>();
+
+    public DbSet<AuditLog> AuditLogs
+        => Set<AuditLog>();
+
     private static string ConvertAvailabilityStatusToString(AvailabilityStatus status) => status switch
     {
         AvailabilityStatus.Available => "AVAILABLE",
@@ -64,6 +79,20 @@ public class ApplicationDbContext
         "READY" => OrderStatus.Ready,
         "SERVED" => OrderStatus.Served,
         "CANCELLED" => OrderStatus.Cancelled,
+        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+    };
+
+    private static string ConvertSubscriptionStatusToString(SubscriptionStatus status) => status switch
+    {
+        SubscriptionStatus.Active => "ACTIVE",
+        SubscriptionStatus.Expired => "EXPIRED",
+        _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
+    };
+
+    private static SubscriptionStatus ConvertStringToSubscriptionStatus(string value) => value switch
+    {
+        "ACTIVE" => SubscriptionStatus.Active,
+        "EXPIRED" => SubscriptionStatus.Expired,
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
     };
 
@@ -340,6 +369,211 @@ public class ApplicationDbContext
                 .WithMany()
                 .HasForeignKey(i => i.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        builder.Entity<Coupon>(entity =>
+        {
+            entity.ToTable("coupons");
+
+            entity.HasKey(c => c.Id);
+
+            entity.Property(c => c.Code)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            entity.Property(c => c.Type)
+                .IsRequired()
+                .HasMaxLength(20);
+
+            entity.Property(c => c.DiscountValue)
+                .HasPrecision(10, 2);
+
+            entity.Property(c => c.ExpiryDate)
+                .IsRequired();
+
+            entity.Property(c => c.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasIndex(c => new { c.RestaurantId, c.Code })
+                .IsUnique();
+
+            entity.HasIndex(c => c.RestaurantId);
+
+            entity.HasOne(c => c.Restaurant)
+                .WithMany(r => r.Coupons)
+                .HasForeignKey(c => c.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(c => c.Product)
+                .WithMany()
+                .HasForeignKey(c => c.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(c => c.Category)
+                .WithMany()
+                .HasForeignKey(c => c.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        builder.Entity<Promotion>(entity =>
+        {
+            entity.ToTable("promotions");
+
+            entity.HasKey(p => p.Id);
+
+            entity.Property(p => p.Title)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            entity.Property(p => p.PromotionalPrice)
+                .HasPrecision(10, 2);
+
+            entity.Property(p => p.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasIndex(p => new { p.RestaurantId, p.IsActive });
+
+            entity.HasOne(p => p.Restaurant)
+                .WithMany(r => r.Promotions)
+                .HasForeignKey(p => p.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<Subscription>(entity =>
+        {
+            entity.ToTable("subscriptions");
+
+            entity.HasKey(s => s.Id);
+
+            entity.Property(s => s.Status)
+                .HasConversion(
+                    status => ConvertSubscriptionStatusToString(status),
+                    value => ConvertStringToSubscriptionStatus(value))
+                .HasDefaultValue(SubscriptionStatus.Active);
+
+            entity.Property(s => s.PaymentMethod)
+                .HasMaxLength(50);
+
+            entity.Property(s => s.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasIndex(s => new { s.RestaurantId, s.Status });
+
+            entity.HasOne(s => s.Restaurant)
+                .WithMany(r => r.Subscriptions)
+                .HasForeignKey(s => s.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<SubscriptionPayment>(entity =>
+        {
+            entity.ToTable("subscription_payments");
+
+            entity.HasKey(p => p.Id);
+
+            entity.Property(p => p.Amount)
+                .HasPrecision(10, 2);
+
+            entity.Property(p => p.PaymentMethod)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            entity.Property(p => p.TransactionReference)
+                .HasMaxLength(100);
+
+            entity.Property(p => p.Status)
+                .IsRequired()
+                .HasMaxLength(30);
+
+            entity.Property(p => p.PaymentDate)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasIndex(p => p.RestaurantId);
+            entity.HasIndex(p => p.SubscriptionId);
+            entity.HasIndex(p => p.TransactionReference);
+
+            entity.HasOne(p => p.Restaurant)
+                .WithMany(r => r.SubscriptionPayments)
+                .HasForeignKey(p => p.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(p => p.Subscription)
+                .WithMany(s => s.Payments)
+                .HasForeignKey(p => p.SubscriptionId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<Notification>(entity =>
+        {
+            entity.ToTable("notifications");
+
+            entity.HasKey(n => n.Id);
+
+            entity.Property(n => n.Type)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            entity.Property(n => n.Title)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            entity.Property(n => n.Message)
+                .IsRequired();
+
+            entity.Property(n => n.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasIndex(n => n.RestaurantId);
+
+            entity.HasIndex(n => new { n.UserId, n.IsRead });
+
+            entity.HasIndex(n => n.OrderId);
+
+            entity.HasOne(n => n.Restaurant)
+                .WithMany(r => r.Notifications)
+                .HasForeignKey(n => n.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(n => n.User)
+                .WithMany()
+                .HasForeignKey(n => n.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasOne(n => n.Order)
+                .WithMany()
+                .HasForeignKey(n => n.OrderId)
+                .OnDelete(DeleteBehavior.SetNull);
+        });
+
+        builder.Entity<AuditLog>(entity =>
+        {
+            entity.ToTable("audit_logs");
+
+            entity.HasKey(a => a.Id);
+
+            entity.Property(a => a.Action)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            entity.Property(a => a.Target)
+                .HasMaxLength(200);
+
+            entity.Property(a => a.Timestamp)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasIndex(a => a.RestaurantId);
+            entity.HasIndex(a => a.UserId);
+            entity.HasIndex(a => a.Timestamp);
+
+            entity.HasOne(a => a.Restaurant)
+                .WithMany(r => r.AuditLogs)
+                .HasForeignKey(a => a.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(a => a.User)
+                .WithMany()
+                .HasForeignKey(a => a.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
         });
     }
 }
