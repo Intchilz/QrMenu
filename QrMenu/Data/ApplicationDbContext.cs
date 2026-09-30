@@ -25,6 +25,10 @@ public class ApplicationDbContext
 
     public DbSet<Product> Products => Set<Product>();
 
+    public DbSet<Order> Orders => Set<Order>();
+
+    public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -190,6 +194,98 @@ public class ApplicationDbContext
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<Order>(entity =>
+        {
+            entity.ToTable("orders");
+
+            entity.HasKey(o => o.Id);
+
+            entity.Property(o => o.Status)
+                .HasConversion<string>()
+                .HasDefaultValue(OrderStatus.Pending);
+
+            entity.Property(o => o.TotalAmount)
+                .HasPrecision(10, 2)
+                .HasDefaultValue(0m);
+
+            entity.Property(o => o.IdempotencyKey)
+                .HasMaxLength(100);
+
+            entity.Property(o => o.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.Property(o => o.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+
+            // Indexes
+
+            entity.HasIndex(o => new
+                {
+                    o.RestaurantId,
+                    o.Status
+                });
+
+
+            entity.HasIndex(o => o.IdempotencyKey)
+                .IsUnique();
+
+
+            // Relationships
+
+            entity.HasOne(o => o.Restaurant)
+                .WithMany(r => r.Orders)
+                .HasForeignKey(o => o.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            entity.HasOne(o => o.Table)
+                .WithMany(t => t.Orders)
+                .HasForeignKey(o => o.TableId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            entity.HasOne(o => o.Session)
+                .WithMany(s => s.Orders)
+                .HasForeignKey(o => o.SessionId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+
+            entity.HasOne(o => o.User)
+                .WithMany(u => u.Orders)
+                .HasForeignKey(o => o.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+        });
+
+        builder.Entity<OrderItem>(entity =>
+        {
+            entity.ToTable("order_items");
+
+            entity.HasKey(i => i.Id);
+
+            entity.Property(i => i.Quantity)
+                .IsRequired();
+
+            entity.Property(i => i.PriceSnapshot)
+                .HasPrecision(10, 2)
+                .IsRequired();
+
+
+            entity.HasIndex(i => i.OrderId);
+
+
+            entity.HasOne(i => i.Order)
+                .WithMany(o => o.OrderItems)
+                .HasForeignKey(i => i.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            entity.HasOne(i => i.Product)
+                .WithMany()
+                .HasForeignKey(i => i.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }

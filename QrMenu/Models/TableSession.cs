@@ -25,6 +25,9 @@ public class TableSession
     public Restaurant Restaurant { get; set; } = null!;
 
     public RestaurantTable Table { get; set; } = null!;
+
+    public ICollection<Order> Orders { get; set; }
+        = new List<Order>();
 }
 
 

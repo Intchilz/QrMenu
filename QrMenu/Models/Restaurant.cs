@@ -28,5 +28,8 @@ public class Restaurant
 
 
     public ICollection<Product> Products { get; set; }
-        = new List<Product>();    
+        = new List<Product>();
+
+    public ICollection<Order> Orders { get; set; }
+        = new List<Order>();        
 }

@@ -19,4 +19,7 @@ public class RestaurantTable
 
     public ICollection<TableSession> Sessions { get; set; }
         = new List<TableSession>();
+
+    public ICollection<Order> Orders { get; set; }
+        = new List<Order>();    
 }
