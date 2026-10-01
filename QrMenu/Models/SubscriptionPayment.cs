@@ -21,7 +21,8 @@ public class SubscriptionPayment
     public string? TransactionReference { get; set; }
 
     [MaxLength(30)]
-    public string Status { get; set; } = "PENDING";
+    public SubscriptionPaymentStatus Status { get; set; }
+    = SubscriptionPaymentStatus.Pending;
 
     public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
 
@@ -29,4 +30,12 @@ public class SubscriptionPayment
     public Subscription Subscription { get; set; } = null!;
 
     public Restaurant Restaurant { get; set; } = null!;
+}
+
+public enum SubscriptionPaymentStatus
+{
+    Pending,
+    Completed,
+    Failed,
+    Cancelled
 }

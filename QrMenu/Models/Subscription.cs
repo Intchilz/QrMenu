@@ -11,6 +11,10 @@ public class Subscription
     public SubscriptionStatus Status { get; set; }
         = SubscriptionStatus.Active;
 
+    public DateTime StartDate { get; set; } = DateTime.UtcNow;
+
+    public int DurationMonths { get; set; } = 1;
+
     public DateTime ExpiryDate { get; set; }
 
     [MaxLength(50)]

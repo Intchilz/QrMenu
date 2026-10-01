@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using QrMenu.Components;
 using QrMenu.Data;
 using QrMenu.Models;
+using QrMenu.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Models
 builder.Services
     .AddIdentity<ApplicationUser, IdentityRole<Guid>>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();        
+    .AddEntityFrameworkStores<ApplicationDbContext>(); 
+
+
+// Services
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<ICurrentTenant, CurrentTenant>();       
 
 var app = builder.Build();
 

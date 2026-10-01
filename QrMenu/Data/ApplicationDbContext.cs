@@ -44,6 +44,9 @@ public class ApplicationDbContext
     public DbSet<AuditLog> AuditLogs
         => Set<AuditLog>();
 
+    public DbSet<RestaurantSettings> RestaurantSettings
+        => Set<RestaurantSettings>();
+
     private static string ConvertAvailabilityStatusToString(AvailabilityStatus status) => status switch
     {
         AvailabilityStatus.Available => "AVAILABLE",
@@ -93,6 +96,24 @@ public class ApplicationDbContext
     {
         "ACTIVE" => SubscriptionStatus.Active,
         "EXPIRED" => SubscriptionStatus.Expired,
+        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+    };
+
+    private static string ConvertSubscriptionPaymentStatusToString(SubscriptionPaymentStatus status) => status switch
+    {
+        SubscriptionPaymentStatus.Pending => "PENDING",
+        SubscriptionPaymentStatus.Completed => "COMPLETED",
+        SubscriptionPaymentStatus.Failed => "FAILED",
+        SubscriptionPaymentStatus.Cancelled => "CANCELLED",
+        _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
+    };
+
+    private static SubscriptionPaymentStatus ConvertStringToSubscriptionPaymentStatus(string value) => value switch
+    {
+        "PENDING" => SubscriptionPaymentStatus.Pending,
+        "COMPLETED" => SubscriptionPaymentStatus.Completed,
+        "FAILED" => SubscriptionPaymentStatus.Failed,
+        "CANCELLED" => SubscriptionPaymentStatus.Cancelled,
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
     };
 
@@ -482,8 +503,10 @@ public class ApplicationDbContext
                 .HasMaxLength(100);
 
             entity.Property(p => p.Status)
-                .IsRequired()
-                .HasMaxLength(30);
+                .HasConversion(
+                    status => ConvertSubscriptionPaymentStatusToString(status),
+                    value => ConvertStringToSubscriptionPaymentStatus(value))
+                .HasDefaultValue(SubscriptionPaymentStatus.Pending);
 
             entity.Property(p => p.PaymentDate)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
@@ -574,6 +597,49 @@ public class ApplicationDbContext
                 .WithMany()
                 .HasForeignKey(a => a.UserId)
                 .OnDelete(DeleteBehavior.SetNull);
+        });
+
+        builder.Entity<RestaurantSettings>(entity =>
+        {
+            entity.ToTable("restaurant_settings");
+
+            entity.HasKey(s => s.Id);
+
+            entity.HasIndex(s => s.RestaurantId)
+                .IsUnique();
+
+            entity.Property(s => s.PrimaryColor)
+                .IsRequired()
+                .HasMaxLength(20);
+
+            entity.Property(s => s.SecondaryColor)
+                .IsRequired()
+                .HasMaxLength(20);
+
+            entity.Property(s => s.FontFamily)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            entity.Property(s => s.MenuLayout)
+                .IsRequired()
+                .HasMaxLength(30);
+
+            entity.Property(s => s.OrderDelayThresholdMinutes)
+                .HasDefaultValue(20);
+
+            entity.Property(s => s.SessionTimeoutMinutes)
+                .HasDefaultValue(120);
+
+            entity.Property(s => s.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.Property(s => s.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.HasOne(s => s.Restaurant)
+                .WithOne(r => r.Settings)
+                .HasForeignKey<RestaurantSettings>(s => s.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

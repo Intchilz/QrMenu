@@ -10,8 +10,6 @@ public class Restaurant
 
     public string? CoverImageUrl { get; set; }
 
-    public string? ThemeConfig { get; set; }
-
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
 
@@ -49,5 +47,7 @@ public class Restaurant
         = new List<Notification>();
 
     public ICollection<AuditLog> AuditLogs { get; set; }
-        = new List<AuditLog>();       
+        = new List<AuditLog>();
+
+    public RestaurantSettings? Settings { get; set; }       
     }
