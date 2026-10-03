@@ -258,7 +258,7 @@ C:\Users\Home\Desktop\QrMenu\qrmenu\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.
 C:\Users\Home\Desktop\QrMenu\qrmenu\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\Home\Desktop\QrMenu\qrmenu\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\Home\Desktop\QrMenu\qrmenu\obj\Debug\net10.0\QrMenu.csproj.AssemblyReference.cache
-C:\Users\Home\Desktop\QrMenu\qrmenu\obj\Debug\net10.0\compressed\wcweih5lq6-{0}-bdp83aklie-bdp83aklie.gz
-C:\Users\Home\Desktop\QrMenu\qrmenu\obj\Debug\net10.0\compressed\y3ecbd2zmk-{0}-bdp83aklie-bdp83aklie.gz
 C:\Users\Home\Desktop\QrMenu\qrmenu\obj\Debug\net10.0\QrMenu.csproj.Up2Date
 C:\Users\Home\Desktop\QrMenu\qrmenu\bin\Debug\net10.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Home\Desktop\QrMenu\qrmenu\obj\Debug\net10.0\compressed\wcweih5lq6-{0}-mpvedbmbdt-mpvedbmbdt.gz
+C:\Users\Home\Desktop\QrMenu\qrmenu\obj\Debug\net10.0\compressed\y3ecbd2zmk-{0}-mpvedbmbdt-mpvedbmbdt.gz

@@ -16,6 +16,10 @@ public class Coupon
     [MaxLength(20)]
     public string Type { get; set; } = string.Empty;
 
+    [Required]
+    [MaxLength(20)]
+    public string DiscountType { get; set; } = "FIXED";
+
     [Range(0, double.MaxValue)]
     public decimal DiscountValue { get; set; }
 
